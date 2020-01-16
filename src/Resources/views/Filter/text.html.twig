@@ -1,13 +1,25 @@
 <label>
-    <input id="{{ datatable.setting('name') }}-column-{{ column.index }}"
+    <input id="{{ datatable.name }}-column-{{ column.index }}"
            data-search-column-index="{{ column.index }}"
             {% if column.filter.placeholder != null %}
                 placeholder="{{ column.filter.placeholder|trans }}"
             {% endif %}
-           value="{{ column.searchValue }}">
+           {#value="{{ column.searchValue }}">#}>
     <script>
-        document.getElementById('domains').addEventListener('restore', function (e, data) {
-            console.log(data);
+        $('#{{ datatable.name }}-column-{{ column.index }}').on('keyup change', function () {
+            if(this.value.length >= 3 || e.keyCode == 13) {
+                // Call the API search function
+                $.fn.dataTable.Api({{ datatable.name }}).column({{ column.index }})
+                        .search(this.value)
+                        .draw();
+            }
+            // Ensure we clear the search if they backspace far enough
+            if(this.value == "") {
+                $.fn.dataTable.Api({{ datatable.name }}).column({{ column.index }})
+                        .search("")
+                        .draw();
+            }
+
         });
     </script>
 </label>

@@ -7,13 +7,13 @@
             <th>{{ column.label|trans }}</th>
         {% endfor %}
     </tr>
-    {#% if datatable.option('searching') and datatable.setting('column_filter') in ['both', 'thead'] %}
+    {% if datatable.option('searching') and columnFilter in ['both', 'thead'] %}
         <tr class="datatable-filters">
             {% for column in datatable.columns %}
                 <td>{% if column.filter != null %}{% include column.filter.templateHtml %}{% endif %}</td>
             {% endfor %}
         </tr>
-    {% endif %#}
+    {% endif %}
     </thead>
     {#% if datatable.option('searching') and datatable.setting('column_filter') in ['both', 'tfoot'] %}
         <tfoot>
